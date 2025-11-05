@@ -1,0 +1,4 @@
+﻿artifacts/crm/*.parquet
+artifacts/companies/*/evidence/*
+*.tmp
+.DS_Store

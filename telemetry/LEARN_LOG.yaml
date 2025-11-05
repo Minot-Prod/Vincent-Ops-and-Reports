@@ -1,0 +1,10 @@
+﻿# Exemple d'entrée (append):
+# - date: ""2025-11-05""
+#   company_slug: ""acme-bank""
+#   interaction: ""call""
+#   outcome: ""meeting_booked""
+#   objections: [""sécurité""]
+#   notes: ""intérêt pour l’automatisation KYC""
+#   fit: 4
+#   timing: 3
+#   access: 2

@@ -1,0 +1,20 @@
+﻿version: 1
+weights:
+  fit: 0.45
+  timing: 0.35
+  access: 0.20
+fit_rules:
+  sector_allowlist: ["banque", "assurance", "services financiers"]
+  size_proxy: { mid: 0.6, enterprise: 1.0, small: 0.3 }
+timing_rules:
+  recent_hiring_window_days: 45
+  news_keywords_boost:
+    - "migration"
+    - "conformité"
+    - "automatisation"
+access_rules:
+  known_contacts_boost: 0.2
+  warm_intro_boost: 0.3
+score_normalization:
+  min: 0
+  max: 100
