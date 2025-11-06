@@ -22,7 +22,7 @@ foreach($e in $entries){
     if(-not (HasKey $block, $k)){ $missing += $k }
   }
   if($missing.Count -gt 0){
-    $errors += "Entrée ~L$lineOffset: clés manquantes -> " + ($missing -join ", ")
+    $errors += "Entrée ~L${lineOffset}: clés manquantes -> " + ($missing -join ", ")
   }
   $lineOffset += ($block -split "`n").Count
 }
