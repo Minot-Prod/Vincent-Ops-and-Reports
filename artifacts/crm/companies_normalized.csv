@@ -1,0 +1,4 @@
+﻿"company_name","slug","website","sector","size","known_contacts","warm_intro","recent_comm_days","news_keywords","prev_project"
+"Acme Pharma","acme-pharma","https://acmepharma.example","santé","enterprise","1","True","15","gala, lancement","False"
+"Nordik Tech","nordik-tech","https://nordiktech.example","technologie","mid","0","False","10","webinaire, événement","True"
+"Grand Marché","grand-marche","https://grandmarche.example","retail premium","mid","2","True","90","","False"
