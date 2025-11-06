@@ -52,7 +52,7 @@ if($Access -or $Access -eq 0){ $entry += "  access: $Access`n" }
 
 $dir = Split-Path -Parent $log
 if($dir){ if(-not (Test-Path $dir)){ New-Item -ItemType Directory -Force -Path $dir | Out-Null } }
-if((Test-Path $log) -and -not ((Get-Content $log -Raw).EndsWith("`n`n"))){ Add-Content -Encoding UTF8 $log "`n" }; Add-Content -Encoding UTF8 $log $entry
+if((Test-Path $log) -and -not ((Get-Content $log -Raw).EndsWith("`n`n"))){ Add-Content -Encoding UTF8 $log "`n" }; if((Test-Path $log) -and -not ((Get-Content $log -Raw).TrimEnd().EndsWith("`n`n"))){ Add-Content -Encoding UTF8 $log "`n" }; Add-Content -Encoding UTF8 $log $entry
 
 Write-Host "✅ Appended debrief -> $log"
 if($GitCommit){
@@ -60,4 +60,5 @@ if($GitCommit){
   git commit -m "telemetry: add debrief $CompanySlug ($Interaction/$Outcome)"
   Write-Host "✅ Committed"
 }
+
 
