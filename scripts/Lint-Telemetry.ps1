@@ -6,9 +6,11 @@ if (!(Test-Path $log)) {
   exit 0
 }
 
-# Parser très simple par blocs (--- séparateur facultatif non requis)
 $raw = Get-Content $log -Raw
-$entries = ($raw -split "\n-\s") | Where-Object { $_.Trim() -ne "" }
+
+# Split sur *début de ligne* "- " y compris l’entrée 1 (on préfixe d’un \n)
+$entries = [regex]::Split("`n$raw", '(?m)^\-\s+')
+$entries = $entries | Where-Object { $_.Trim() -ne "" }
 
 $errors = @()
 $lineOffset = 1
@@ -22,7 +24,7 @@ foreach($e in $entries){
     if(-not (HasKey $block, $k)){ $missing += $k }
   }
   if($missing.Count -gt 0){
-    $errors += "Entrée ~L${lineOffset}: clés manquantes -> " + ($missing -join ", ")
+    $errors += ("Entrée ~L{0}: clés manquantes -> {1}" -f $lineOffset, ($missing -join ", "))
   }
   $lineOffset += ($block -split "`n").Count
 }
