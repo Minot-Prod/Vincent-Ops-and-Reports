@@ -46,9 +46,9 @@ $entry = @"
   notes: "$Notes"
 "@
 
-if($Fit -or $Fit -eq 0){ $entry += "  fit: $Fit`n" }
-if($Timing -or $Timing -eq 0){ $entry += "  timing: $Timing`n" }
-if($Access -or $Access -eq 0){ $entry += "  access: $Access`n" }
+if($Fit -or $Fit -eq 0){ $entry += "`n  fit: $Fit`n" }
+if($Timing -or $Timing -eq 0){ $entry += "`n  timing: $Timing`n" }
+if($Access -or $Access -eq 0){ $entry += "`n  access: $Access`n" }
 
 $dir = Split-Path -Parent $log
 if($dir){ if(-not (Test-Path $dir)){ New-Item -ItemType Directory -Force -Path $dir | Out-Null } }
@@ -60,5 +60,6 @@ if($GitCommit){
   git commit -m "telemetry: add debrief $CompanySlug ($Interaction/$Outcome)"
   Write-Host "✅ Committed"
 }
+
 
 

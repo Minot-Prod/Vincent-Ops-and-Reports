@@ -6,38 +6,50 @@ if (!(Test-Path $log)) {
   exit 0
 }
 
-# Normalisation douce pour éviter BOM/CRLF qui perturbent les regex
+# Normalisation
 $raw = Get-Content $log -Raw
-$raw = $raw.Replace("`r","").Trim()
-# Retire un éventuel BOM UTF8
+$raw = $raw.Replace("`r","")
 if($raw.Length -gt 0 -and [int]$raw[0] -eq 0xFEFF){ $raw = $raw.Substring(1) }
-
 $lines = $raw -split "`n"
 
-# State machine: on démarre un bloc quand une ligne commence par "- " en colonne 0 (tolérance espaces)
+# State machine avec tracking de la ligne de départ et ignorance du préambule
 $blocks = @()
 $current = @()
+$startLine = $null
+$lineNum = 0
+$seenStart = $false
+
 foreach($line in $lines){
-  if($line -match '^(?-i)\s*-\s'){         # début d’un nouveau bloc
-    if($current.Count -gt 0){ $blocks += ,(@($current)); $current = @() }
-    # on retire juste le "- " de tête pour faciliter les checks
-    $current += ($line -replace '^\s*-\s*','')
-  } else {
-    if($line -match '^\s*$' -and $current.Count -eq 0){
-      continue
+  $lineNum++
+
+  if($line -match '^(?-i)\s*-\s'){        # nouvelle entrée YAML
+    $seenStart = $true
+    if($current.Count -gt 0){
+      $blocks += [pscustomobject]@{ Lines = @($current); Start = $startLine }
+      $current = @()
     }
-    $current += $line
+    $startLine = $lineNum
+    $current += ($line -replace '^\s*-\s*','')
+    continue
   }
+
+  if(-not $seenStart){
+    # tout ce qui précède la première entrée ("- ") = commentaires / entête -> on ignore
+    continue
+  }
+
+  if($current.Count -eq 0 -and $line -match '^\s*$'){ continue }
+  $current += $line
 }
-if($current.Count -gt 0){ $blocks += ,(@($current)) }
+if($current.Count -gt 0){
+  $blocks += [pscustomobject]@{ Lines = @($current); Start = $startLine }
+}
 
 $errors = @()
-$lineOffset = 1
 
-foreach($blockLines in $blocks){
-  $text = ($blockLines -join "`n")
+foreach($b in $blocks){
+  $text = ($b.Lines -join "`n")
 
-  # Checks clés
   $hasDate = $text -match '(?im)^\s*date\s*:'
   $hasCo   = $text -match '(?im)^\s*company_slug\s*:'
   $hasOut  = $text -match '(?im)^\s*outcome\s*:'
@@ -48,10 +60,8 @@ foreach($blockLines in $blocks){
   if(-not $hasOut){  $missing += 'outcome' }
 
   if($missing.Count -gt 0){
-    $errors += ("Entrée ~L{0}: clés manquantes -> {1}" -f $lineOffset, ($missing -join ", "))
+    $errors += ("Entrée ~L{0}: clés manquantes -> {1}" -f $b.Start, ($missing -join ", "))
   }
-
-  $lineOffset += $blockLines.Count
 }
 
 if($errors.Count -gt 0){

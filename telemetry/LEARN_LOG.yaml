@@ -14,7 +14,8 @@
   outcome: "follow_up"
   objections: ["prix", "timing"]
   triggers: ["gala"]
-  notes: "bon fit, next step: inviter prod"  fit: 4
+  notes: "bon fit, next step: inviter prod"`n  fit: 4
   timing: 4
   access: 3
+
 
