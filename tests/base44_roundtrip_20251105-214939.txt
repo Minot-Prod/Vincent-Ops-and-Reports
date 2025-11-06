@@ -1,0 +1,5 @@
+# Vincent-App Base44 Roundtrip (20251105-214939)
+text=Hello, Montréal 🚀
+b44_text=5BI77YBKJ15HLT71O2IS*.3!0F$MQVC
+bytes=[0,0,1,2,3,4]
+b44_bytes=4MM0$
