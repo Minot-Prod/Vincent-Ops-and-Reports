@@ -1,0 +1,50 @@
+﻿name: "Feedback Scoring (SYNC)"
+description: "Signaler un faux positif/négatif ou proposer un ajustement de score"
+title: "[Scoring] "
+labels: ["scoring-feedback","telemetry"]
+body:
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      options: ["haut", "moyen", "faible"]
+    validations:
+      required: true
+  - type: input
+    id: company
+    attributes:
+      label: Entreprise (slug ou nom)
+      placeholder: acme-pharma
+    validations:
+      required: true
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Type
+      options: ["faux positif (score trop haut)", "faux négatif (score trop bas)", "règle à ajouter", "règle à supprimer", "autre"]
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Évidences / Signaux
+      description: URLs, notes, extraits — pourquoi le score est à revoir ?
+      placeholder: "https://..., LinkedIn post, communiqué…"
+  - type: checkboxes
+    id: dimensions
+    attributes:
+      label: Dimensions concernées
+      options:
+        - label: Fit (ICP / secteur / taille)
+        - label: Timing (actu, événements, recrutement)
+        - label: Access (contacts, intro, historique)
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposition d’ajustement
+      description: Pondérations, mots-clés, fenêtres temporelles, seuils…
+  - type: input
+    id: call_debrief
+    attributes:
+      label: Lien vers call debrief (si applicable)
+      placeholder: "telemetry/LEARN_LOG.yaml (ligne) ou PR"

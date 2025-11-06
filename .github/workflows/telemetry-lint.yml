@@ -1,0 +1,14 @@
+﻿name: telemetry-lint
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  lint:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint telemetry
+        shell: powershell
+        run: |
+          powershell -ExecutionPolicy Bypass -File scripts\Lint-Telemetry.ps1
