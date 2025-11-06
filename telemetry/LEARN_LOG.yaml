@@ -8,3 +8,13 @@
 #   fit: 4
 #   timing: 3
 #   access: 2
+- date: "2025-11-05"
+  company_slug: "acme-pharma"
+  interaction: "call"
+  outcome: "follow_up"
+  objections: ["prix", "timing"]
+  triggers: ["gala"]
+  notes: "bon fit, next step: inviter prod"  fit: 4
+  timing: 4
+  access: 3
+
