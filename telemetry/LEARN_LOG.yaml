@@ -29,3 +29,12 @@
     fit: 5
     timing: 4
     access: 4
+- date: 2025-11-05T20:34:48Z
+  company: "ACME Expo"
+  channel: "call"
+  outcome: "meeting"
+  next_step: "Envoyer propal scénographie hybride"
+  ratings:
+    fit: 5
+    timing: 4
+    access: 4
